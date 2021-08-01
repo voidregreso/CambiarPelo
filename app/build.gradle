@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "com.example.haircolorchange"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        ndk {
+            // Specifies the ABI configurations of your native
+            // libraries Gradle should build and package with your APK.
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+
+        // for friz
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+    }
+
+    // for friz
+    // Don't compress included TensorFlow Lite models on build.
+    // Specify tflite file should not be compressed for the app apk
+    aaptOptions {
+        noCompress "tflite"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'com.github.hedzr:android-file-chooser:devel-SNAPSHOT'
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'
+    implementation 'com.github.duanhong169:colorpicker:1.1.6'
+
+    // for friz
+    implementation 'ai.fritz:core:6.0.4'
+    implementation 'ai.fritz:vision:6.0.4'
+    implementation 'ai.fritz:vision-hair-segmentation-model-fast:3.0.0'
+}
